@@ -1,0 +1,45 @@
+testthat::test_that("test_for_overlaps works", {
+
+  example_aavenger_table <- read.csv(testthat::test_path('testdata', 'example_aavenger_table.csv'))
+
+  example_hg38_chromosome_lengths <- read.csv(testthat::test_path('testdata', 'example_hg38_chromosome_lengths.csv'))
+
+  formatted_example_aavenger_table <- format_aavenger_sites(example_aavenger_table)
+
+  match_row_number_modifier_ <- 3
+
+  random_match_table <- aavenger_sites_random_match(
+    aavenger_sites = formatted_example_aavenger_table,
+    chromosome_lengths = example_hg38_chromosome_lengths,
+    random_seed_value = 10,
+    match_row_number_modifier = match_row_number_modifier_)
+
+  combined_df <- rbind(formatted_example_aavenger_table, random_match_table)
+
+  list_of_feature_files_ <- list.files(testthat::test_path('testdata'), pattern = "\\.(rds|RData)$", full.names = TRUE)
+
+  overlap_ranges_to_test_ <- c(0, 100, 1000, 10000)
+
+  # Test RData format works
+  overlap_test_result <- test_for_overlaps(
+    matched_aavenger_sites_df = combined_df,
+    list_of_feature_files = list_of_feature_files_[1],
+    overlap_ranges_to_test = overlap_ranges_to_test_
+  )
+
+  testthat::expect_equal(nrow(overlap_test_result), 8000)
+  testthat::expect_equal(ncol(overlap_test_result), 12)
+
+  rm(overlap_test_result)
+
+  # Test rds format works
+  overlap_test_result <- test_for_overlaps(
+    matched_aavenger_sites_df = combined_df,
+    list_of_feature_files = list_of_feature_files_[2],
+    overlap_ranges_to_test = overlap_ranges_to_test_
+  )
+
+  testthat::expect_equal(nrow(overlap_test_result), 8000)
+  testthat::expect_equal(ncol(overlap_test_result), 12)
+
+})

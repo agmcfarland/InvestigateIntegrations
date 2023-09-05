@@ -1,0 +1,22 @@
+Package: InvestigateIntegrations
+Title: Invetigate integrations in genomic features.
+Version: 1.0
+Authors@R: 
+    person("Alexander", "McFarland", , "alex.925@gmail.com", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-1803-3623"))
+Description: Functions and workflows to compare integrations in different
+    genomic features.
+License: MIT + file LICENSE
+URL: https://github.com/agmcfarland/InvestigateIntegrations
+BugReports: https://github.com/agmcfarland/InvestigateIntegrations/issues
+Encoding: UTF-8
+Language: en
+LazyData: true
+LazyDataCompression: xz
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.0
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+Depends: 
+    R (>= 2.10)
