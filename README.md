@@ -8,4 +8,3 @@ Functions and workflows to compare integrations in different genomic features.
 ```R
 devtools::install_github('agmcfarland/InvestigateIntegrations')
 ```
-
