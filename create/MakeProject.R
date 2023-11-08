@@ -101,20 +101,14 @@ usethis::use_test(function_name)
 devtools::test(filter = function_name)
 
 
+# Z-test workflow
+function_name <- 'roc_to_heatmap'
+
+
 # Run all tests
 devtools::test()
 devtools::test_coverage()
 
 devtools::document() # updates NAMESPACE
-
-# Create doc plot object for github
-# devtools::load_all(package_dir)
-# df_barcodes <- read.csv(file.path(package_dir, 'tests', 'testthat', 'testdata', 'barcode_table.csv'))
-#
-# df_barcodes <- BarcodeFlow::FormatData(df_barcodes, 'sample_name', 'barcode', 'dpi', 'proportion')
-#
-# p1 <- BarcodeFlow::BasicAlluvialPlot(df_barcodes)
-#
-# cowplot::save_plot(file.path(file.path(package_dir, 'docs', 'example.png')), p1)
 
 

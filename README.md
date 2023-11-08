@@ -21,6 +21,6 @@ devtools::install_github('agmcfarland/InvestigateIntegrations')
 
 # Workflows
 
-1. hotROCs heatmap
+1. hotROCs R values with heatmap
 
-2. 
+2. T-test

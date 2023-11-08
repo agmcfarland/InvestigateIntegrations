@@ -25,6 +25,10 @@ test_for_overlaps <- function(
     overlap_ranges_to_test
 ){
 
+  if (length(list_of_feature_files) == 0) {
+    stop('argument "list_of_feature_files" is empty.')
+  }
+
   # Make a string version of overlap ranges to test
   options(scipen = 999) # ensures that 1000000 doesn't turn into 1e6, etc
   overlap_ranges_to_test_string <- as.character(overlap_ranges_to_test)
