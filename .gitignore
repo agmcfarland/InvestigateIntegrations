@@ -1,1 +1,8 @@
+# Mac stuff
 .DS_Store
+
+# Sublim sftp config
+sftp-config.json
+
+# Folders
+/create/
