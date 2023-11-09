@@ -48,7 +48,7 @@ sample_genome <- function(
     chromosome_lengths,
     by = 'seqname')
 
-  # Randomly sample each chromsome sample_n amount of times using chr_length as the upper limit
+  # Randomly sample each chromosome sample_n amount of times using chr_length as the upper limit
   # The output will be a list of named integers. Each integer is named by the chromosome it originated from
   random_chromosome_positions <- lapply(1:nrow(random_chromosome_samples), function(x){
     sample_ouput <- sample(

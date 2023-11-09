@@ -102,7 +102,7 @@ devtools::test(filter = function_name)
 
 
 # Z-test workflow
-function_name <- 'roc_to_heatmap'
+
 
 
 # Run all tests
