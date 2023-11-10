@@ -57,6 +57,11 @@ usethis::use_data_raw(name = 'example_H3K79me2_rds')
 # Manually fill in documentation.
 usethis::use_r(name = 'example_H3K79me2_rds')
 
+# Create another example rds features file
+usethis::use_data_raw(name = 'example_refGene_rds')
+# Manually fill in documentation.
+usethis::use_r(name = 'example_refGene_rds')
+
 
 
 # Package functions. Create each file and then write code.
@@ -101,7 +106,26 @@ usethis::use_test(function_name)
 devtools::test(filter = function_name)
 
 
-# Z-test workflow
+# T-test workflow
+function_name <- 'count_integrations_in_feature_window'
+usethis::use_r(function_name)
+usethis::use_test(function_name)
+devtools::test(filter = function_name)
+
+function_name <- 'simulate_many_counts_in_features'
+usethis::use_r(function_name)
+usethis::use_test(function_name)
+devtools::test(filter = function_name)
+
+function_name <- 'experimental_counts_in_features'
+usethis::use_r(function_name)
+usethis::use_test(function_name)
+devtools::test(filter = function_name)
+
+function_name <- 'rnorm_simulate_many_counts_in_features'
+usethis::use_r(function_name)
+usethis::use_test(function_name)
+devtools::test(filter = function_name)
 
 
 

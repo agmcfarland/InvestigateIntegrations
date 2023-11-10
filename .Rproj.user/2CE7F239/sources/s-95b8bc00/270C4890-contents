@@ -1,4 +1,0 @@
-## code to prepare `H3K79me2` dataset goes here
-
-
-usethis::use_data(H3K79me2, overwrite = TRUE)

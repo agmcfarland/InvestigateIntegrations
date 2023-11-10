@@ -21,6 +21,6 @@ devtools::install_github('agmcfarland/InvestigateIntegrations')
 
 # Workflows
 
-1. hotROCs R values with heatmap
+1. hotROCs R values, with heatmap visualization.
 
-2. T-test
+2. Analysis of percentage integrations counts using bootstrapped simulations, with distribution visualization

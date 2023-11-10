@@ -1,4 +1,0 @@
-## code to prepare `example_H3K79me2` dataset goes here
-file.copy('H3K79me2.rds')
-
-usethis::use_data(example_H3K79me2, overwrite = TRUE)
