@@ -37,7 +37,7 @@ testthat::test_that("test_for_overlaps works", {
 
   # Check that hot_roc_result works
   formatted_hot_roc_result <- format_hot_roc_result(hot_roc_result)
-  testthat::expect_equal(nrow(formatted_hot_roc_result), 16)
+  testthat::expect_equal(nrow(formatted_hot_roc_result), 24)
   testthat::expect_equal(ncol(formatted_hot_roc_result), 5)
 
   # Check ggplot object was successfully created

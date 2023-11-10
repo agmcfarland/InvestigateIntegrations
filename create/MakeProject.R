@@ -33,9 +33,9 @@ dir.create(file.path(package_dir, 'create'))
 dir.create(file.path(package_dir, 'docs'))
 
 # Create test folder with usethis, create testdata dir, and then remove test-whoop.R create initially
-usethis::use_test('whoop')
-dir.create(file.path(package_dir, 'tests', 'testthat', 'testdata'))
-file.remove(file.path(package_dir, 'tests', 'testthat', 'test-whoop.R'))
+# usethis::use_test('whoop')
+# dir.create(file.path(package_dir, 'tests', 'testthat', 'testdata'))
+# file.remove(file.path(package_dir, 'tests', 'testthat', 'test-whoop.R'))
 
 # Create example_hg38_chromosome_lengths dataset. Fill in with code. will save new file to testdata and data
 usethis::use_data_raw(name = 'example_hg38_chromosome_lengths')
@@ -123,6 +123,16 @@ usethis::use_test(function_name)
 devtools::test(filter = function_name)
 
 function_name <- 'rnorm_simulate_many_counts_in_features'
+usethis::use_r(function_name)
+usethis::use_test(function_name)
+devtools::test(filter = function_name)
+
+function_name <- 'integration_percentage_in_feature_p_value'
+usethis::use_r(function_name)
+usethis::use_test(function_name)
+devtools::test(filter = function_name)
+
+function_name <- 'plot_integration_percentages'
 usethis::use_r(function_name)
 usethis::use_test(function_name)
 devtools::test(filter = function_name)

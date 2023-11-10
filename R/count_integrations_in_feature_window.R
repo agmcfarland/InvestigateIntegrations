@@ -13,11 +13,6 @@
 #' @return A numeric vector containing the count of integrations, total integration sites, and the percentage of integration sites.
 #'
 #' @examples
-#' test_df <- format_aavenger_sites(unformatted_aavenger_sites) # or sample_genome()
-#' test_feature_file <- readRDS('/path/to/rds)
-#' test_overlap_window_size <- 10
-#'
-#'Call the function
 #' result <- count_integrations_in_feature_window(test_df, test_feature_file, test_overlap_window_size)
 #'
 #' @seealso
