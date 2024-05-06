@@ -64,28 +64,5 @@ jobs:
         run: devtools::test()
         shell: Rscript {0}
 
-      - name: Install coverage dependencies
-        run: |
-          pak::local_install_dev_deps(upgrade = TRUE)
-          pak::pkg_install("covr")
-        shell: Rscript {0}
-
-      - name: Test coverage
-        run: covr::codecov()
-        shell: Rscript {0}
-
-      - name: Show testthat output
-        if: always()
-        run: |
-          ## --------------------------------------------------------------------
-          find ${{ runner.temp }}/package -name 'testthat.Rout*' -exec cat '{}' \; || true
-        shell: bash
-
-      - name: Upload test results
-        if: failure()
-        uses: actions/upload-artifact@v3
-        with:
-          name: coverage-test-failures
-          path: ${{ runner.temp }}/package
 
 
