@@ -27,7 +27,7 @@ jobs:
 
       - name: Install base R dependencies
         run: |
-          install.packages(c("covr"))
+          install.packages(c("covr", "testthat", "usethis"))
         shell: Rscript {0}
 
       - name: Test coverage
