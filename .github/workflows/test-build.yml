@@ -29,12 +29,11 @@ jobs:
         with:
           r-version: ${{ matrix.r-version }}
 
-      - name: Install base dependencies
-        run: |
-          apt-get -y build-dep libcurl4-gnutls-dev
-          apt-get -y install libcurl4-gnutls-dev
+      - name: Install system libraries
+        if: runner.os == 'Linux'
+        run: sudo apt-get install -y libcurl4-openssl-dev
 
-      - name: Install R dependencies
+      - name: Install base R dependencies
         run: |
           install.packages(c("remotes", "rcmdcheck"))
           remotes::install_deps(dependencies = TRUE)
@@ -45,6 +44,6 @@ jobs:
       # - name: Install package
       #   run: R CMD build InvestigateIntegrations
 
-      - name: Run test
+      - name: Run tests
         run: devtools::test()
         shell: Rscript {0}
