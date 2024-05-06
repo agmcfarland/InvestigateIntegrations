@@ -7,7 +7,7 @@
 # additional example workflows available for the R community.
 
 name: R
-
+MY_TOKEN
 on:
   push:
     branches: [ "main" ]
@@ -21,6 +21,9 @@ jobs:
     strategy:
       matrix:
         r-version: ['4.1.1']
+
+    env:
+      GITHUB_PAT: ${{ secrets.MY_TOKEN }}
 
     steps:
       - uses: actions/checkout@v4
@@ -38,11 +41,25 @@ jobs:
           install.packages(c("remotes", "rcmdcheck"))
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
+
+      - name: Session info 1
+        run: |
+          options(width = 100)
+          pkgs <- installed.packages()[, "Package"]
+          sessioninfo::session_info(pkgs, include_base = TRUE)
+        shell: Rscript {0}
       
       - name: Install package dependencies
         uses: r-lib/actions/setup-r-dependencies@v2
       # - name: Install package
       #   run: R CMD build InvestigateIntegrations
+
+      - name: Session info 2
+        run: |
+          options(width = 100)
+          pkgs <- installed.packages()[, "Package"]
+          sessioninfo::session_info(pkgs, include_base = TRUE)
+        shell: Rscript {0}
 
       - name: Run tests
         run: devtools::test()
