@@ -6,8 +6,8 @@
 # See https://github.com/r-lib/actions/tree/master/examples#readme for
 # additional example workflows available for the R community.
 
-name: R
-MY_TOKEN
+name: R-test
+
 on:
   push:
     branches: [ "main" ]
