@@ -1,6 +1,11 @@
 
 # InvestigateIntegrations
 
+<!-- Badges start -->
+[![Tests](https://github.com/agmcfarland/InvestigateIntegrations/actions/workflows/test-build.yml/badge.svg)](https://github.com/agmcfarland/InvestigateIntegrations/actions/workflows/test-build.yml)
+[![codecov](https://codecov.io/gh/agmcfarland/InvestigateIntegrations/branch/master/graph/badge.svg)](https://codecov.io/gh/agmcfarland/InvestigateIntegrations?branch=master)
+<!-- Badges end -->
+
 A suite of workflows to analyze the distribution of integration site in different genomic features.
 
 # Installation
