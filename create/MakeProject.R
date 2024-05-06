@@ -1,3 +1,5 @@
+# This is a linear record of commands used to build this package.
+
 rm(list = ls())
 
 library(devtools)
@@ -14,7 +16,7 @@ usethis::use_description(fields = list(
     comment = c(ORCID = "0000-0002-1803-3623")
   ),
   Version = '1.0',
-  Title = 'Invetigate integrations in genomic features.',
+  Title = 'Invetigate integrations in genomic features',
   URL = 'https://github.com/agmcfarland/InvestigateIntegrations',
   BugReports = 'https://github.com/agmcfarland/InvestigateIntegrations/issues',
   Language =  "en",
@@ -22,12 +24,13 @@ usethis::use_description(fields = list(
   Description = 'Functions and workflows to compare integrations in different genomic features.',
   Encoding = 'UTF-8',
   LazyData = 'true',
-  LazyDataCompression = 'xz'
+  LazyDataCompression = 'xz',
+  biocViews = '' #https://github.com/egeulgen/pathfindR/issues/14
 ))
 
 usethis::use_build_ignore(c('docs', 'create'))
 
-# Create raw-data to store all project creation instructions including this script
+# Create "create" to store all project creation instructions including this script
 dir.create(file.path(package_dir, 'create'))
 # Create docs to store documents
 dir.create(file.path(package_dir, 'docs'))
@@ -138,11 +141,28 @@ usethis::use_test(function_name)
 devtools::test(filter = function_name)
 
 
-
 # Run all tests
 devtools::test()
 devtools::test_coverage()
 
 devtools::document() # updates NAMESPACE
 
+# Manually update DESCRIPTION file with imports from NAMESPACE
+
+#Depends:
+#    R (>= 4.1.3)
+
+usethis::use_dev_package("hotROCs", remote = "agmcfarland/hotROCs")
+
+#Imports:
+usethis::use_package("dplyr")
+usethis::use_package("dplyr")
+usethis::use_package("ggplot2")
+usethis::use_package("stringr")
+usethis::use_package("tibble")
+usethis::use_package("tidyr")
+usethis::use_package("truncnorm")
+usethis::use_package("GenomicRanges")
+usethis::use_package("ShortRead")
+usethis::use_package("Biostrings")
 
