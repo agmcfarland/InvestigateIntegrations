@@ -15,7 +15,7 @@ usethis::use_description(fields = list(
     role = c("aut", "cre"),
     comment = c(ORCID = "0000-0002-1803-3623")
   ),
-  Version = '1.0',
+  Version = '1.1',
   Title = 'Invetigate integrations in genomic features',
   URL = 'https://github.com/agmcfarland/InvestigateIntegrations',
   BugReports = 'https://github.com/agmcfarland/InvestigateIntegrations/issues',
@@ -139,6 +139,10 @@ function_name <- 'plot_integration_percentages'
 usethis::use_r(function_name)
 usethis::use_test(function_name)
 devtools::test(filter = function_name)
+
+# Count
+
+# Count integration sites in features
 
 
 # Run all tests
