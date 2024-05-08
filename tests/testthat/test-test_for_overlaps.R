@@ -16,7 +16,7 @@ testthat::test_that("test_for_overlaps works", {
 
   combined_df <- rbind(formatted_example_aavenger_table, random_match_table)
 
-  list_of_feature_files_ <- list.files(testthat::test_path('testdata'), pattern = "\\.(rds|RData)$", full.names = TRUE)
+  list_of_feature_files_ <- list.files(testthat::test_path('testdata'), pattern = "refGene.rds|H3K79*", full.names = TRUE)
 
   overlap_ranges_to_test_ <- c(0, 100, 1000, 10000)
 
