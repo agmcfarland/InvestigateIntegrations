@@ -11,6 +11,8 @@
 #'
 #' @details Calls on InvestigateIntegrations::separate_gene_features()
 #'   Dataframe must have the following columns:
+#'   strand genomic strand
+#'   chrom chromosome name
 #'   exonStarts comma delimited list of exon positions and end with a comma (character)
 #'   exonEnds comma delimited list of exon positions and end with a comma (character)
 #'   exonCount number of exons in exonStarts/exonEnds (numeric)

@@ -11,3 +11,4 @@ sftp-config.json
 /.Rproj.user/
 
 /data-raw/
+tests/testthat/Rplots.pdf
