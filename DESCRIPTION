@@ -24,6 +24,7 @@ Imports:
     GenomicRanges,
     ggplot2,
     hotROCs (>= 0.99.5),
+    parallel,
     ShortRead,
     stringr,
     tibble,
