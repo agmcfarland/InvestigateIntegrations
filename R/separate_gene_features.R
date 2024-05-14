@@ -46,7 +46,7 @@
 #'
 separate_gene_features <- function(gene_entry) {
 
-  # gene_entry <- df_temp[6,]
+  # gene_entry <- test_reference_2[1,]
 
   df_gene_boundaries <- data.frame(
     'start' = as.numeric(unlist(strsplit(gene_entry$exonStarts, ',', fixed = TRUE))),
@@ -62,7 +62,10 @@ separate_gene_features <- function(gene_entry) {
       'start' =  dplyr::lag(df_gene_boundaries$end + 1, n = 1)[2:gene_entry$exonCount],
       'end' = end_introns[2:gene_entry$exonCount],
       'feature' = 'intron'
-    )
+    ) %>%
+      dplyr::filter(end > start)
+
+
     df_gene_boundaries <- rbind(df_gene_boundaries, df_introns)
   }
 
@@ -76,14 +79,7 @@ separate_gene_features <- function(gene_entry) {
 
     df_gene_boundaries <- rbind(df_gene_boundaries, df_UTR)
 
-    penultimate_row <- nrow(df_gene_boundaries) - 1
 
-    # df_gene_boundaries <- df_gene_boundaries %>%
-    #   dplyr::arrange(start, end) %>%
-    #   dplyr::mutate(
-    #     start = ifelse(feature == 'exon' & dplyr::row_number() == 2, dplyr::lag(end + 1, n = 1), start),
-    #     end = ifelse(feature == 'exon' & dplyr::row_number() == penultimate_row, dplyr::lead(start - 1, n = 1), end)
-    #   )
   }
 
   df_gene_boundaries$name <- gene_entry$name

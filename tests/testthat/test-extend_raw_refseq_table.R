@@ -3,6 +3,7 @@ test_that("extend_raw_refseq_table works", {
 
   load(testthat::test_path('testdata', 'example_refseq_full_table.rda'))
 
+  # test small reference set identical to separate_gene_features
   test_reference <- data.frame(
     'name' = c('XR_001750861.2', 'NM_001419809.1', 'NM_004739.4', 'XM_047426116.1', 'NR_107046.1'),
     'name2' = c('LOC107984663', 'KDM6A', 'MTA2', 'LOC124902420', 'MIR8079'),
@@ -33,23 +34,44 @@ test_that("extend_raw_refseq_table works", {
 
   testthat::expect_equal(df_temp3$UTR_right, df_temp3$right_UTR_length)
 
-  df_temp4 <- extend_raw_refseq_table(refseq_table = example_refseq_full_table, number_of_cores = parallel::detectCores())
+  # test larger dataset. The full example_refseq_full_table and an added test_reference_2 table that
+  # has cases where introns < 0 if not corrected
 
-  df_temp5 <- example_refseq_full_table %>%
-    dplyr::select(name, strand, exonCount, cdsStartStat)
+  test_reference_2 <- data.frame(
+    bin = c(900, 1307),
+    name = c("NM_001291281.3", "NM_015068.3"),
+    chrom = c("chr1", "chr7"),
+    strand = c("+", "+"),
+    txStart = c(41361433, 94656324),
+    txEnd = c(41383590, 94669695),
+    cdsStart = c(41361930, 94663556),
+    cdsEnd = c(41382681, 94665682),
+    exonCount = c(3, 3),
+    exonStarts = c("41361433,41381615,41382209,", "94656324,94663333,94664513,"),
+    exonEnds = c("41362344,41382208,41383590,", "94656580,94664513,94669695,"),
+    score = c(0, 0),
+    name2 = c("FOXO6", "PEG10"),
+    cdsStartStat = c("cmpl", "cmpl"),
+    cdsEndStat = c("cmpl", "cmpl"),
+    exonFrames = c("0,0,2,", "-1,0,1,")
+  )
+  example_refseq_full_table_extra <- rbind(example_refseq_full_table, test_reference_2)
+
+  df_temp4 <- extend_raw_refseq_table(refseq_table = example_refseq_full_table_extra, number_of_cores = parallel::detectCores())
+
+  df_temp5 <- example_refseq_full_table_extra %>%
+    dplyr::select(name, exonCount, cdsStartStat)
+
+  testthat::expect_equal(c('NM_001291281.3', 'NM_015068.3') %in% df_temp4$name, c(TRUE, TRUE))
 
   df_temp5 <- merge(df_temp5, df_temp4, by = 'name')
 
+  # test protein coding sequences
   df_temp6 <- df_temp5 %>%
     dplyr::filter(cdsStartStat == 'cmpl')
 
   lapply(dplyr::group_split(df_temp6, name), function (gene_group) {
-    # browser()
-    # print(base::unique(gene_group$name))
 
-    # gene_group <- df_temp6 %>%
-      # dplyr::filter(name == 'NM_000168.6') %>%
-    #   dplyr::filter(name == 'NM_000936.4') %>%
     gene_group <- gene_group %>%
       dplyr::arrange(start, end)
 
@@ -62,6 +84,14 @@ test_that("extend_raw_refseq_table works", {
       dplyr::filter(end == max(end))
     testthat::expect_equal('UTR_right' %in% df_max_end$feature, TRUE)
 
+    })
+
+  testthat::expect_equal(nrow(df_temp5), 23764)
+
+  df_temp7 <- df_temp5
+
+  lapply(dplyr::group_split(df_temp7, name), function (gene_group) {
+
     number_of_exons_truth <- gene_group$exonCount[1]
 
     number_of_exons_calculated <- sum(gene_group$feature == 'exon')
@@ -69,32 +99,13 @@ test_that("extend_raw_refseq_table works", {
     number_of_introns_calculated <- sum(gene_group$feature == 'intron')
 
     testthat::expect_equal(number_of_exons_calculated, number_of_exons_truth)
-
-    testthat::expect_equal(number_of_introns_calculated, number_of_exons_truth - 1)
 
     })
 
-  df_temp6 <- df_temp5 %>%
-    dplyr::filter(cdsStartStat == 'none')
-
-  lapply(dplyr::group_split(df_temp6, name), function (gene_group) {
-    # gene_group <- df_temp6
-
-    number_of_exons_truth <- gene_group$exonCount[1]
-
-    number_of_exons_calculated <- sum(gene_group$feature == 'exon')
-
-    number_of_introns_calculated <- sum(gene_group$feature == 'intron')
-
-    testthat::expect_equal(number_of_exons_calculated, number_of_exons_truth)
-
-    testthat::expect_equal(number_of_introns_calculated, number_of_exons_truth - 1)
 
 
-  })
-
-  # nrow(df_temp4)
-
+  # # nrow(df_temp4)
+  #
   # full_example <- read.csv(file.path('/data/temp/ncbiRefSeq.txt'), sep = '\t', header = FALSE)
   # colnames(full_example) <- c(
   #   'bin', 'name', 'chrom', 'strand', 'txStart', 'txEnd', 'cdsStart', 'cdsEnd', 'exonCount',
@@ -112,7 +123,23 @@ test_that("extend_raw_refseq_table works", {
   # df_temp5 <- extend_raw_refseq_table(refseq_table = full_example, number_of_cores = parallel::detectCores())
   # print(Sys.time() - start.time)
   #
+  # df_temp5 <- df_temp5 %>%
+  #   dplyr::mutate(difference = end-start)
+  #
+  # df_temp6 <- df_temp5 %>%
+  #   dplyr::filter(name == 'NM_001291281.3') %>%
+  #   dplyr::arrange(start, end)
+  #
+  # df_temp8 <- df_temp5 %>%
+  #   dplyr::filter(name == 'NM_015068.3') %>%
+  #   dplyr::arrange(start, end)
+  #
+  # df_temp7 <- df_temp5 %>%
+  #   dplyr::filter(difference < 0)
+  #
   # nrow(df_temp5)
+  #
+  # print(full_example %>% dplyr::filter(name %in% c('NM_001291281.3', 'NM_015068.3')))
 
 
 
