@@ -65,7 +65,8 @@ usethis::use_data_raw(name = 'example_refGene_rds')
 # Manually fill in documentation.
 usethis::use_r(name = 'example_refGene_rds')
 
-
+# Load functions and datasets
+devtools::load_all(".")
 
 # Package functions. Create each file and then write code.
 function_name <- 'format_aavenger_sites'
@@ -140,18 +141,43 @@ usethis::use_r(function_name)
 usethis::use_test(function_name)
 devtools::test(filter = function_name)
 
-# Count
+## Counting integration sites
+
+# Create an example rds features file. Will create in raw-data and then finally in data
+usethis::use_data_raw(name = 'example_refseq_full_table')
+# Manually fill in documentation.
+usethis::use_r(name = 'example_refseq_full_table')
+# copy to testdata to use for testing functions
+file.copy(
+  from = file.path('/data/InvestigateIntegrations/data/example_refseq_full_table.rda'),
+  to = file.path('/data/InvestigateIntegrations/tests/testthat/testdata')
+  )
+
+# Extend UCSC refseq data table to include introns, UTRs, exons using a parallel call to separate_gene_features
+function_name <- 'extend_raw_refseq_table'
+usethis::use_r(function_name)
+usethis::use_test(function_name)
+devtools::test(filter = function_name)
+
+function_name <- 'separate_gene_features'
+usethis::use_r(function_name)
+usethis::use_test(function_name)
+devtools::test(filter = function_name)
+
 
 # Count integration sites in features
+function_name <- 'extract_overlaps'
+usethis::use_r(function_name)
+usethis::use_test(function_name)
+devtools::test(filter = function_name)
 
 
 # Run all tests
 devtools::test()
 devtools::test_coverage()
 
+## Update DESCRIPTION file with imports from NAMESPACE
 devtools::document() # updates NAMESPACE
-
-# Manually update DESCRIPTION file with imports from NAMESPACE
 
 #Depends:
 #    R (>= 4.1.3)
@@ -169,4 +195,5 @@ usethis::use_package("truncnorm")
 usethis::use_package("GenomicRanges")
 usethis::use_package("ShortRead")
 usethis::use_package("Biostrings")
+usethis::use_package("parallel")
 

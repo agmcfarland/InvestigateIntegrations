@@ -88,7 +88,7 @@ separate_gene_features <- function(gene_entry) {
 
   df_gene_boundaries$name <- gene_entry$name
   df_gene_boundaries$chrom <- gene_entry$chrom
-  df_gene_boundaries$chrom <- gene_entry$strand
+  df_gene_boundaries$strand <- gene_entry$strand
 
   return(df_gene_boundaries)
 
