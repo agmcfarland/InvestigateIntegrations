@@ -1,0 +1,138 @@
+
+
+## Load libraries and paths
+
+```{r}
+# clear workspace
+rm(list=ls())
+options(scipen = 999)
+
+library(dplyr)
+library(InvestigateIntegrations)
+
+working_dir <- file.path(getwd(), 'example_InvestigateIntegrations')
+
+dir.create(working_dir)
+
+saveRDS(InvestigateIntegrations::example_H3K79me2_rds, file.path(working_dir, 'H3K79me2_rds.rds'))
+saveRDS(InvestigateIntegrations::example_refGene_rds, file.path(working_dir, 'example_refGene_rds.rds'))
+```
+
+## Format integration site table
+
+Read in a dataframe of integration sites in the format outputted by [AAVengeR]().
+
+```{r}
+# read in testset.csv, which contains an example AAVengeR integration sites dataframe
+aavenger_sites_raw <- InvestigateIntegrations::example_aavenger_table
+
+print(head(aavenger_sites_raw))
+
+# format dataframe object to be useable by InvestigateIntegrations
+aavenger_sites <- InvestigateIntegrations::format_aavenger_sites(
+  aavenger_sites_df = aavenger_sites_raw
+)
+
+print(head(aavenger_sites))
+
+# note that the experimental data has a column called `type` that has been labeled with `insertion`
+```
+
+## Get chromosome lengths
+
+Read in the genomic fasta file that will be used for random sampling.
+
+Normally the genomic fasta would be read in using ShortRead::readFasta(). To save disk space for this exercise, a pre-made chromosome_lengths file is provided. The hashed out examples show how the genomic fasta would be read in and converted to a chromosome_lengths dataframe in a typical workflow..
+
+```{r}
+# genome_fasta <- ShortRead::readFasta(file.path('/home/ubuntu/temp_data/data','hg38.fa.gz')) # example
+# chromosome_lengths <- InvestigateIntegrations::fasta_to_chromosome_lengths(genome_fasta) # example
+chromosome_lengths <- InvestigateIntegrations::example_hg38_chromosome_lengths
+
+print(head(chromosome_lengths))
+```
+
+## Make random-matched dataframes
+
+Each unique `heatmap_group` in `aavenger_sites` is its own dataframe. Each unique `heatmap_group` dataframe will have a random match dataframe with `match_row_number_modifier` times the rows, each with a randomly sampled position from the provided genomic fasta in `chromosome_lengths`.
+
+```{r}
+# generate random-matched dataframes
+random_match_df <- InvestigateIntegrations::aavenger_sites_random_match(
+  aavenger_sites = aavenger_sites,
+  chromosome_lengths = chromosome_lengths,
+  random_seed_value = 10,
+  match_row_number_modifier = 3
+)
+
+print(head(random_match_df))
+
+# Note random match has a column called `type` that is labeled `match`
+```
+
+## Combine original integration sites and random match integration sites
+
+Make a long dataframe that is the original aavenger_sites on top of the random_match_df sites.
+
+```{r}
+# combine random match and experimental dataframes
+combined_df <- rbind(aavenger_sites, random_match_df)
+```
+
+## Check that each integration dataframe has the correct number of random matches
+
+Number of random matches should equal the size of the integration dataframe * `match_row_number_modifier`.
+
+```{r}
+# count the number of insertion sites and match sites
+print(combined_df%>%group_by(heatmap_group, type)%>%summarize(count = n()))
+```
+
+## Count overlaps for integration sites and genomic features over multiple genomic windows
+
+Each integration site is checked if it overlaps a genomic feature, with the genomic feature being expanded by different genomic windows. 
+
+```{r}
+# get the provided RData and rds feature files into a list
+feature_files_to_process <- list.files(working_dir, pattern = "\\.(rds|RData)$", full.names = TRUE)
+
+print(feature_files_to_process)
+
+# test each integration site for overlap in each feature at each given overlap 
+combined_overlap_test_results_genomic_ranges <- InvestigateIntegrations::test_for_overlaps(
+  matched_aavenger_sites_df = combined_df,
+  list_of_feature_files = feature_files_to_process,
+  overlap_ranges_to_test = c(0, 100, 1000, 10000, 1000000)
+)
+
+print(head(combined_overlap_test_results_genomic_ranges))
+```
+
+## Use hotROCs to calculate the ROC area for each integration site group
+
+**InvestigateIntegrations** calls on `hotROCs` to calculate the ROC area.
+
+```{r}
+hot_roc_result <- InvestigateIntegrations::hotroc_compare_insertion_to_match(
+  matched_overlap_df = combined_overlap_test_results_genomic_ranges
+)
+```
+
+## Inspect the hotROCs output
+
+If the ROC is 1, then counts in the experimental integration site dataframe are greater than the random match. If the ROC is 0, then counts are lower than the random match. If the ROC is 0.5, then counts are equally likely for both experimental integration site dataframe and its random match. [See here for code](https://github.com/BushmanLab/hotROCs) and [here for more details](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5363318/)
+
+```{r}
+head(InvestigateIntegrations::format_hot_roc_result(hot_roc_result))
+```
+
+## Make a heatmap of the ROC data
+
+Convert the hotROCs output into a heatmap. P-values and ROC gradients are displayed. 
+
+```{r}
+p1 <- InvestigateIntegrations::roc_to_heatmap(
+  hot_roc_result = hot_roc_result
+)
+print(p1)
+```
