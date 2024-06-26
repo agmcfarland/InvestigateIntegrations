@@ -15,7 +15,7 @@ usethis::use_description(fields = list(
     role = c("aut", "cre"),
     comment = c(ORCID = "0000-0002-1803-3623")
   ),
-  Version = '1.1',
+  Version = '1.3',
   Title = 'Invetigate integrations in genomic features',
   URL = 'https://github.com/agmcfarland/InvestigateIntegrations',
   BugReports = 'https://github.com/agmcfarland/InvestigateIntegrations/issues',
@@ -64,9 +64,6 @@ usethis::use_r(name = 'example_H3K79me2_rds')
 usethis::use_data_raw(name = 'example_refGene_rds')
 # Manually fill in documentation.
 usethis::use_r(name = 'example_refGene_rds')
-
-# Load functions and datasets
-devtools::load_all(".")
 
 # Package functions. Create each file and then write code.
 function_name <- 'format_aavenger_sites'
@@ -164,13 +161,29 @@ usethis::use_r(function_name)
 usethis::use_test(function_name)
 devtools::test(filter = function_name)
 
-
 # Count integration sites in features
 function_name <- 'extract_overlaps'
 usethis::use_r(function_name)
 usethis::use_test(function_name)
 devtools::test(filter = function_name)
 
+## GC content for each integration site
+# Create an example rds features fasta file. Will create in raw-data and then finally in data
+usethis::use_data_raw(name = 'example_fasta_chromosome')
+# Manually fill in documentation.
+usethis::use_r(name = 'example_fasta_chromosome')
+
+function_name <- 'GC_percentage_per_insertion'
+usethis::use_r(function_name)
+usethis::use_test(function_name)
+devtools::test(filter = function_name)
+
+# Load functions and datasets
+devtools::load_all(".")
+
+## WHEN BUILDING FOR NEW RELEASE:
+
+# update usethis::use_description() at top
 
 # Run all tests
 devtools::test()
@@ -196,4 +209,5 @@ usethis::use_package("GenomicRanges")
 usethis::use_package("ShortRead")
 usethis::use_package("Biostrings")
 usethis::use_package("parallel")
+usethis::use_package("BSgenome")
 

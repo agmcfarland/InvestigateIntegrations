@@ -22,28 +22,6 @@
 #'   All numeric positions are being read in 5'->3'
 #'
 #'   Returns a dataframe with each row being a range for the category of UTR_left, UTR_right, exon, and intron
-#'
-#'
-#' @examples
-#' # Create a sample gene entry
-#' gene_entry <- data.frame(
-#'   exonStarts = "100,200,300",
-#'   exonEnds = "150,250,350",
-#'   exonCount = 3,
-#'   cdsStartStat = "cmpl",
-#'   txStart = 90,
-#'   txEnd = 360,
-#'   cdsStart = 120,
-#'   cdsEnd = 330,
-#'   name = "gene1"
-#' )
-#'
-#' # Separate gene features
-#' separated_features <- separate_gene_features(gene_entry)
-#'
-#' # View the separated features
-#' print(separated_features)
-#'
 separate_gene_features <- function(gene_entry) {
 
   # gene_entry <- test_reference_2[1,]
