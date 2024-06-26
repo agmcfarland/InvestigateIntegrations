@@ -27,6 +27,7 @@
 #' @import GenomicRanges
 #' @import Biostrings
 #' @import tidyr
+#' @import BSgenome
 GC_percentage_per_insertion <- function(
     df_combined,
     genomic_sequence,
