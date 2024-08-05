@@ -15,7 +15,7 @@ A suite of workflows to analyze the distribution of integration site in differen
 [hotROCs](https://rdrr.io/github/BushmanLab/hotROCs/)
 
 ```R
-devtools::install_github('https://github.com/agmcfarland/hotROCs')
+devtools::install_github('agmcfarland/hotROCs')
 ```
 
 ## Package
