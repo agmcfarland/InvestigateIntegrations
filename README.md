@@ -28,4 +28,12 @@ devtools::install_github('agmcfarland/InvestigateIntegrations')
 
 1. hotROCs R values, with heatmap visualization.
 
-2. Analysis of percentage integrations counts using bootstrapped simulations, with distribution visualization
+2. Analysis of percentage integrations counts using bootstrapped simulations, with distribution visualization.
+
+3. Genomic repeat categorization.
+
+	- Formatting multihit clusters into repeat tables.
+
+	- Combine with unqiue integration repeat calls.
+
+4. Annotate integration sites with RefSeq information.

@@ -6,6 +6,8 @@ library(devtools)
 
 package_dir <- '/data/InvestigateIntegrations'
 
+devtools::load_all(".")
+
 usethis::create_package(package_dir)
 usethis::use_mit_license('Alexander G. McFarland')
 usethis::use_description(fields = list(
@@ -64,6 +66,17 @@ usethis::use_r(name = 'example_H3K79me2_rds')
 usethis::use_data_raw(name = 'example_refGene_rds')
 # Manually fill in documentation.
 usethis::use_r(name = 'example_refGene_rds')
+
+# Create an example multihitcluster features. store in testdata
+usethis::use_data_raw(name = 'example_aavenger_multihitcluster_table')
+# Manually fill in documentation.
+usethis::use_r(name = 'example_aavenger_multihitcluster_table')
+
+# Create an example repeat granges object. store in testdat.
+usethis::use_data_raw(name = 'example_repeats_all')
+# Manually fill in documentation.
+usethis::use_r(name = 'example_repeats_all')
+
 
 # Package functions. Create each file and then write code.
 function_name <- 'format_aavenger_sites'
@@ -174,6 +187,48 @@ usethis::use_data_raw(name = 'example_fasta_chromosome')
 usethis::use_r(name = 'example_fasta_chromosome')
 
 function_name <- 'GC_percentage_per_insertion'
+usethis::use_r(function_name)
+usethis::use_test(function_name)
+devtools::test(filter = function_name)
+
+
+## Repeat analysis
+function_name <- 'unnest_mhc_table'
+usethis::use_r(function_name)
+usethis::use_test(function_name)
+devtools::test(filter = function_name)
+
+function_name <- 'split_posid_into_chromosome_position'
+usethis::use_r(function_name)
+usethis::use_test(function_name)
+devtools::test(filter = function_name)
+
+function_name <- 'relabel_repeat_categories'
+usethis::use_r(function_name)
+usethis::use_test(function_name)
+devtools::test(filter = function_name)
+
+function_name <- 'find_overlaps_in_repeats'
+usethis::use_r(function_name)
+usethis::use_test(function_name)
+devtools::test(filter = function_name)
+
+function_name <- 'count_repeat_class_per_cluster'
+usethis::use_r(function_name)
+usethis::use_test(function_name)
+devtools::test(filter = function_name)
+
+function_name <- 'extract_most_abundant_repeat_class_per_cluster'
+usethis::use_r(function_name)
+usethis::use_test(function_name)
+devtools::test(filter = function_name)
+
+function_name <- 'multihit_cluster_to_representative_repeat'
+usethis::use_r(function_name)
+usethis::use_test(function_name)
+devtools::test(filter = function_name)
+
+function_name <- 'repeat_class_summary_tables'
 usethis::use_r(function_name)
 usethis::use_test(function_name)
 devtools::test(filter = function_name)

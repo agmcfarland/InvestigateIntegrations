@@ -2,26 +2,35 @@
 % Please edit documentation in R/extract_overlaps.R
 \name{extract_overlaps}
 \alias{extract_overlaps}
-\title{Extract overlapping regions between two sets of genomic ranges}
+\title{Extract Overlapping Regions Between Genomic Ranges Sets}
 \usage{
-extract_overlaps(query, subject, mark_query = TRUE, mark_subject = TRUE)
+extract_overlaps(
+  query,
+  subject,
+  mark_query = TRUE,
+  mark_subject = TRUE,
+  keep_all_query = FALSE
+)
 }
 \arguments{
-\item{query}{A GenomicRanges object representing the query set. Must have start, end, strand columns.}
+\item{query}{A \code{GenomicRanges} object representing the query set, containing \code{start}, \code{end}, and \code{strand} columns.}
 
-\item{subject}{A GenomicRanges object representing the subject set. Must have start, end, strand columns.}
+\item{subject}{A \code{GenomicRanges} object representing the subject set, containing \code{start}, \code{end}, and \code{strand} columns.}
 
-\item{mark_query}{Logical indicating whether to mark columns of the query set with "_query" suffix.}
+\item{mark_query}{Logical, if \code{TRUE}, appends "_query" to column names in the query set within the output.}
 
-\item{mark_subject}{Logical indicating whether to mark columns of the subject set with "_subject" suffix.}
+\item{mark_subject}{Logical, if \code{TRUE}, appends "_subject" to column names in the subject set within the output.}
+
+\item{keep_all_query}{Logical, if \code{TRUE}, includes all rows from the query set in the output, even if they have no match in the subject set, filling subject columns with \code{NA}.}
 }
 \value{
-A data frame containing all overlapping regions between the query and subject sets.
+A data frame containing all overlapping regions between the query and subject sets, with additional columns marking the source (query or subject) if \code{mark_query} or \code{mark_subject} is \code{TRUE}.
 }
 \description{
-This function identifies overlapping regions between a query set and a subject set of genomic ranges.
+Identifies and extracts overlapping regions between a query and a subject set of genomic ranges.
+Optionally, non-overlapping regions from the query set can be included with missing values for subject columns.
 }
 \details{
-Output is a data table with all instances of query in subject, even if query has multiple hits in subject.
-All columns from query and subject are joined in the output via cbind.
+The function returns all instances of overlaps between \code{query} and \code{subject}, including cases where a single query region matches multiple subject regions. Columns from \code{query} and \code{subject} are combined in the output using \code{cbind}.
+If \code{keep_all_query} is \code{TRUE}, non-overlapping query regions are included with \code{NA} in subject columns.
 }

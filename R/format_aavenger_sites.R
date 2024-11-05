@@ -22,12 +22,8 @@
 #' @export
 format_aavenger_sites <- function(aavenger_sites_df){
 
-  aavenger_sites_df <- aavenger_sites_df%>%
-    tidyr::separate(
-      col = posid,
-      into = c('chromosome', 'position', 'extra'),
-      remove = TRUE
-    )%>%
+  aavenger_sites_df <- aavenger_sites_df %>%
+    split_posid_into_chromosome_position() %>%
     dplyr::select(chromosome, position, trial, subject, sample)%>%
     dplyr::rename(seqname = chromosome)%>%
     dplyr::mutate(
@@ -39,7 +35,7 @@ format_aavenger_sites <- function(aavenger_sites_df){
       type = 'insertion',
       heatmap_group = paste(trial, subject, sample, sep = '_')
     )%>%
-    dplyr::select(-c(position, trial, subject, sample))%>%
+    dplyr::select(-c(position, trial, subject, sample)) %>%
     dplyr::mutate(
       start = as.integer(start),
       end = as.integer(end),
