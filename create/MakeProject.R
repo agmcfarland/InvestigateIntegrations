@@ -17,7 +17,7 @@ usethis::use_description(fields = list(
     role = c("aut", "cre"),
     comment = c(ORCID = "0000-0002-1803-3623")
   ),
-  Version = '1.3',
+  Version = '1.5.0',
   Title = 'Invetigate integrations in genomic features',
   URL = 'https://github.com/agmcfarland/InvestigateIntegrations',
   BugReports = 'https://github.com/agmcfarland/InvestigateIntegrations/issues',
@@ -151,7 +151,19 @@ usethis::use_r(function_name)
 usethis::use_test(function_name)
 devtools::test(filter = function_name)
 
-## Counting integration sites
+
+## Group integration sites x distance from each other
+function_name <- 'find_groups_of_integration_positions'
+usethis::use_r(function_name)
+usethis::use_test(function_name)
+devtools::test(filter = function_name)
+
+## Retrieve groups of integration sites that have more than X number of positions
+function_name <- 'find_groups_of_integration_positions'
+usethis::use_r(function_name)
+usethis::use_test(function_name)
+devtools::test(filter = function_name)
+
 
 # Create an example rds features file. Will create in raw-data and then finally in data
 usethis::use_data_raw(name = 'example_refseq_full_table')

@@ -1,4 +1,3 @@
-
 #' Calculate GC Content Around Insertion Sites
 #'
 #' This function calculates the GC content for various window sizes around genomic insertion sites.
@@ -28,6 +27,7 @@
 #' @import Biostrings
 #' @import tidyr
 #' @import BSgenome
+#' @export
 GC_percentage_per_insertion <- function(
     df_combined,
     genomic_sequence,
