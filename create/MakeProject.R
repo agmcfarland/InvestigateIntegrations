@@ -17,7 +17,7 @@ usethis::use_description(fields = list(
     role = c("aut", "cre"),
     comment = c(ORCID = "0000-0002-1803-3623")
   ),
-  Version = '1.5.0',
+  Version = '1.5.1',
   Title = 'Invetigate integrations in genomic features',
   URL = 'https://github.com/agmcfarland/InvestigateIntegrations',
   BugReports = 'https://github.com/agmcfarland/InvestigateIntegrations/issues',

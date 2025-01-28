@@ -22,10 +22,10 @@
 #'
 #' @import dplyr
 #' @import parallel
-#'
+#'s
 #' @export
 #'
-experimental_counts_in_features <- function(df_sites, chromosome_lengths,  overlap_window_sizes, feature_files_to_process, number_of_cores = parallel::detectCores()) {
+experimental_counts_in_features <- function(df_sites, chromosome_lengths,  overlap_window_sizes, feature_files_to_process, number_of_cores = parallel::detectCores(), verbose = FALSE) {
 
   process_counts_experimental <- function(heatmap_group_) {
     df_sites_filtered <- df_sites %>%
@@ -56,7 +56,9 @@ experimental_counts_in_features <- function(df_sites, chromosome_lengths,  overl
 
   for (feature_track_file in feature_files_to_process){
 
-    print(feature_track_file)
+    if (verbose) {
+      print(feature_track_file)
+    }
 
     for (single_overlap_value in overlap_window_sizes){
 

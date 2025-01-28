@@ -1,0 +1,32 @@
+
+# Read in genomic sequence from genomic track repository
+
+genomic_sequence <- Biostrings::readDNAStringSet(file.path(genomic_track_repository_paths$data_processed, 'hg38', 'hg38.fasta.gz'))
+
+# Make sure you have the combined_df from that you have already generated in the example
+
+
+# Get chromosome lengths (either hg38 included in package or from the genomic_track_repository
+
+chromosome_lengths <- read.csv(file.path(genomic_track_repository_paths$data_processed, 'hg38', 'hg38.chrom.sizes.txt'), sep = ',')
+
+chromosome_lengths <- chromosome_lengths[colnames(chromosome_lengths) %in% c('seqname', 'chr_length')]
+
+chromosome_lengths <- chromosome_lengths %>%
+  dplyr::filter(!stringr::str_detect(seqname, '_'))
+
+testthat::expect_equal(nrow(chromosome_lengths), 25)
+
+# or 
+chromosome_lengths <- InvestigateIntegrations::example_hg38_chromosome_lengths
+
+
+# Calculate GC content over window sizes
+
+combined_gc_content_result <- InvestigateIntegrations::GC_percentage_per_insertion(
+    df_combined = combined_df,
+    genomic_sequence = genomic_sequence,
+    window_sizes_to_test = c(50, 100, 500, 1000, 10000),
+    chromosome_lengths = chromosome_lengths,
+    fasta_name = 'genome'
+    ) 
