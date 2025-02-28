@@ -20,7 +20,7 @@ split_posid_into_chromosome_position <- function(df) {
            tidyr::separate(col = posid, into = c('chromosome', 'position', 'extra'), remove = FALSE) %>%
            dplyr::mutate(
              position = as.numeric(position),
-             extra = as.numeric(position),
+             extra = as.numeric(extra),
              strand = gsub("[^+-]", "", posid))
          )
 }
