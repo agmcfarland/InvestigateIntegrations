@@ -63,8 +63,6 @@ plot_integration_percentages <- function(simulation_results, experimental_probab
       labs(title = basename(feature_title), y = 'simulations', y = 'sites in feature (%)', fill = 'source') +
       guides(color = 'none')
 
-    print(p1)
-
     plot_objects[[feature_track_file]] <- p1
 
   }
